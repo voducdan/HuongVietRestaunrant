@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a499b30661004ddeadb7b92ac8f3f0d3" Name="Diagram1">
+        <EntityTypeShape EntityType="NhaHangModel.Ban" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.ChiNhanh" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.ChiNhanhDiaChi" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.ChiNhanhMonAn" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.ChiNhanhSdt" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.DonDatHang" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.HoaDon" Width="1.5" PointX="7.5" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.HoaDonChiTiet" Width="1.5" PointX="9.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.KhachHang" Width="1.5" PointX="3" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.LoaiMon" Width="1.5" PointX="1.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.MaGiamGia" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.MonAn" Width="1.5" PointX="0.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.MonAnDonHang" Width="1.5" PointX="7.5" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.NhanVien" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.NhanVienSdt" Width="1.5" PointX="5.25" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NhaHangModel.PhieuGiaoHang" Width="1.5" PointX="10.5" PointY="21.375" IsExpanded="true" />
+        <AssociationConnector Association="NhaHangModel.FK_HD_B" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_CN_NV" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_CNDC_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_CNMA_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_CNSDT_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_DDH_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_KH_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_NV_CN" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_CNMA_MA" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_DDH_KH" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_DDH_MGG" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_HD_DDH" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_MADH_DDH" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_PGH_DDH" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_HD_NV" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_HDCT_HD" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_MA_LM" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_MADH_MA" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_NVSDT_NV" ManuallyRouted="false" />
+        <AssociationConnector Association="NhaHangModel.FK_PGH_VNGH" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
