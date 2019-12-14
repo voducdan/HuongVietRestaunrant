@@ -1,4 +1,7 @@
-﻿@model NhaHang.Models.MonAnQuery
+﻿@model NhaHang.Models.Home.HomeModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,10 +27,11 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Loại Món
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @foreach (var item in Model.LoaiMons)
+                        {
+                            <a class="dropdown-item" href="#">@item.Tenloaimon</a>
+                        }
                     </div>
                 </li>
             </ul>
@@ -42,8 +46,8 @@
                     <th scope="col">Loại</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model.MonAnList)
+            <tbody class="monan-table">
+                @foreach (var item in Model.MonAnQueries)
                 {
                     <tr>
                         <td>@item.TenMon</td>
@@ -54,17 +58,59 @@
             </tbody>
         </table>
     </div>
+    <br />
+    Page @(Model.MonAnQueries.PageCount < Model.MonAnQueries.PageNumber ? 0 : Model.MonAnQueries.PageNumber) of @Model.MonAnQueries.PageCount
+
+    @Html.PagedListPager(Model.MonAnQueries, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </body>
 </html>
 <style>
     .my-custom-scrollbar {
         position: relative;
-        height: 450px;
+        max-height: 400px;
         overflow: auto;
     }
 
     .table-wrapper-scroll-y {
         display: block;
     }
+
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const HomeData = @Html.Raw(Json.Encode(Model.MonAnQueries));
+        const dropdownToggle = document.querySelector('.nav-link.dropdown-toggle');
+        const dropdownItem = document.querySelectorAll('.dropdown-item');
+        const MonAnTable = document.querySelector('.monan-table');
+        dropdownItem.forEach(item => {
+            item.onclick = function () {
+                dropdownToggle.innerText = item.innerText;
+                let LoaiMonFilter = []
+                HomeData.forEach(MonAn => {
+                    if (MonAn.LoaiMon === item.innerText) {
+                        LoaiMonFilter.push(MonAn)
+                    }
+                })
+                MonAnTable.innerHTML = ''
+                LoaiMonFilter.forEach(MonAn => {
+                    MonAnTable.innerHTML += `
+                            <tr>
+                        <td>${MonAn.TenMon}</td>
+                        <td>${MonAn.Gia} đ</td>
+                        <td>${MonAn.LoaiMon}</td>
+                    </tr>
+                        `
+                })
+            }
+        })
+    }, false)
+</script>
+
+
 
