@@ -20,6 +20,7 @@ namespace NhaHang.Controllers
                                    join LM in NhaHang.LoaiMons on MA.Idloaimon equals LM.Idloaimon
                                    select new MonAnQuery()
                                    {
+                                       Idmon = MA.Idmon,
                                        TenMon = MA.Tenmon,
                                        Gia = MA.Gia,
                                        LoaiMon = LM.Tenloaimon,

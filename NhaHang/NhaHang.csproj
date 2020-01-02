@@ -179,6 +179,7 @@
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DonDatHang.cs">
       <DependentUpon>NhaHang.tt</DependentUpon>
     </Compile>
@@ -200,8 +201,12 @@
     <Compile Include="MaGiamGia.cs">
       <DependentUpon>NhaHang.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuanLy\BanModel.cs" />
     <Compile Include="Models\Home\HomeModel.cs" />
     <Compile Include="Models\Home\MonAnQuery.cs" />
+    <Compile Include="Models\QuanLy\HoaDonModel.cs" />
+    <Compile Include="Models\QuanLy\MaGiamGiaModel.cs" />
+    <Compile Include="Models\QuanLy\NhanVienModel.cs" />
     <Compile Include="MonAn.cs">
       <DependentUpon>NhaHang.tt</DependentUpon>
     </Compile>
@@ -239,8 +244,11 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -266,6 +274,11 @@
     <Content Include="NhaHang.edmx.diagram">
       <DependentUpon>NhaHang.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -293,9 +306,15 @@
     <Content Include="Views\About\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\Ban.cshtml" />
+    <Content Include="Views\Manage\NhanVien.cshtml" />
+    <Content Include="Views\Manage\MaGiamGia.cshtml" />
+    <Content Include="Views\Manage\HoaDon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\HoaDon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

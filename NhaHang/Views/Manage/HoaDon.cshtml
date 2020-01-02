@@ -1,0 +1,165 @@
+﻿@model NhaHang.Models.QuanLy.HoaDonModel
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+
+    ViewBag.Title = "Hoa Don";
+    Layout = "~/Views/Manage/Index.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hương Việt</title>
+</head>
+<body>
+
+    <!-- update -->
+    <div class="modal fade" id="showDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Xác nhận giảm giá tiền hoá đơn</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" id="update" data-dismiss="modal">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- edit -->
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sửa thông tin hoá đơn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Id hoá đơn</label>
+                    <input type="text" name="idban" class="form-control" id="model-id" />
+                    <br />
+                    <label>Ca</label>
+                    <input type="text" name="ca" class="form-control" id="model-ca" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="save" data-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar mt-2">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id hoá đơn</th>
+                    <th scope="col">Thành tiền</th>
+                    <th scope="col">Ngày lập</th>
+                    <th scope="col">#</th>
+                </tr>
+            </thead>
+            <tbody class="hoadon-table">
+                @foreach (var item in Model.HoaDonModels)
+                {
+                    <tr>
+                        <td>@item.Idhoadon</td>
+                        <td>@item.Thanhtien</td>
+                        <td>@item.Ngaylap</td>
+                        <td>
+                            <ul style="list-style:none" class="d-flex flex-row justify-content-around px-0">
+                                <li><i class="fa fa-pencil update-table pr-1" aria-hidden="true" data-id=@item.Idhoadon data-toggle="modal" data-target="#showDetail"></i></li>
+                                <li><i class="fa fa-info-circle edit-table pl-1" aria-hidden="true" data-id="@item.Idhoadon" data-toggle="modal" data-target="#edit"></i></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    Page @(Model.HoaDonModels.PageCount < Model.HoaDonModels.PageNumber ? 0 : Model.HoaDonModels.PageNumber) of @Model.HoaDonModels.PageCount
+
+    @Html.PagedListPager(Model.HoaDonModels, page => Url.Action("HoaDon",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const updateBtn = document.querySelectorAll('.update-table')
+        const editBtn = document.querySelectorAll('.edit-table')
+        const update = document.querySelector('#update')
+        const edit = document.querySelector('#save')
+        let id = undefined
+        updateBtn.forEach(item => {
+            item.onclick = function () {
+                id = item.dataset.id
+            }
+        })
+        update.onclick = function () {
+            $.ajax({
+                url: '/Manage/UpdateHoaDon',
+                data: { id: Number(id) }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Sửa thông tin hoá đơn không thành công')
+                }
+            })
+        }
+        editBtn.forEach(item => {
+            item.onclick = function () {
+                id = item.dataset.id
+            }
+        })
+        edit.onclick = function () {
+            const modelCa = document.querySelector('#model-ca')
+            $.ajax({
+                url: '/Manage/EditHoaDon',
+                data: { id: Number(id), ca: Number(modelCa.value) }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Sửa thông tin hoá đơn không thành công')
+                }
+            })
+
+        }
+    }, false)
+
+</script>
+
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+</style>
+
+

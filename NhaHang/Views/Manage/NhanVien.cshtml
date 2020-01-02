@@ -1,0 +1,79 @@
+﻿@model PagedList.IPagedList<NhaHang.Models.QuanLy.NhanVienModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "NhanVien";
+    Layout = "~/Views/Manage/Index.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hương Việt</title>
+</head>
+<body>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar mt-2">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id Nhân Viên</th>
+                    <th scope="col">Họ tên</th>
+                    <th scope="col">Chi Nhánh</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Lương</th>
+                    <th scope="col">Chức vụ</th>
+                    <th scope="col">#</th>
+                </tr>
+            </thead>
+            <tbody class="nhanvien-table">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Idnhanvien</td>
+                        <td>@item.Ten</td>
+                        <td>@item.Tenchinhanh</td>
+                        <td>@item.Diachi</td>
+                        <td>@item.Email</td>
+                        <td>@item.Luong triệu</td>
+                        <td>@item.Chucvu</td>
+                        <td>
+                            <ul style="list-style:none; padding:0 10px" class="d-flex flex-row justify-content-around">
+                                <li><i class="fa fa-pencil edit-table pr-1" aria-hidden="true" data-id=@item.Idnhanvien></i></li>
+                                <li><i class="fa fa-times delete-table pl-1" aria-hidden="true" data-id="@item.Idnhanvien"></i></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("NhanVien",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</body>
+</html>
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+</style>
+
+

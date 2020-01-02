@@ -1,0 +1,161 @@
+﻿@model NhaHang.Models.QuanLy.MaGiamGiaModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+
+    ViewBag.Title = "Ma Giam Gia";
+    Layout = "~/Views/Manage/Index.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hương Việt</title>
+</head>
+<body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sửa thông tin bàn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Mã Giảm giá</label>
+                    <input type="text" name="idban" class="form-control" id="model-mgg" />
+                    <br />
+                    <label>Số lần còn lại</label>
+                    <input type="text" name="soghe" class="form-control" id="model-solan" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" id="saveWait" data-dismiss="modal">Lưu - wait</button>
+                    <button type="button" class="btn btn-primary" id="save" data-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar mt-2">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Mã Giảm Giá</td>
+                    <td>Ngày bắt đầu</td>
+                    <td>Ngày kết thúc</td>
+                    <td>Số lượng còn lại</td>
+                    <td>Giá trị</td>
+                    <th scope="col">#</th>
+                </tr>
+            </thead>
+            <tbody class="monan-table">
+                @foreach (var item in Model.MaGiamGiaModels)
+                {
+                    <tr>
+                        <td>@item.Magiamgia1</td>
+                        <td>@item.Ngaybatdau</td>
+                        <td>@item.Ngayketthuc</td>
+                        <td>@item.Soluongconlai</td>
+                        <td>@item.Giatri %</td>
+                        <td>
+                            <ul style="list-style:none; padding:0 10px;" class="d-flex flex-row justify-content-around">
+                                <li><i class="fa fa-pencil edit-mgg" aria-hidden="true" data-id=@item.Magiamgia1 data-toggle="modal" data-target="#exampleModalCenter"></i></li>
+                                <li><i class="fa fa-times delete-mgg" aria-hidden="true" data-id="@item.Magiamgia1"></i></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    Page @(Model.MaGiamGiaModels.PageCount < Model.MaGiamGiaModels.PageNumber ? 0 : Model.MaGiamGiaModels.PageNumber) of @Model.MaGiamGiaModels.PageCount
+
+    @Html.PagedListPager(Model.MaGiamGiaModels, page => Url.Action("MaGiamGia",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</body>
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editBtn = document.querySelectorAll('.edit-mgg')
+        const deleteBtn = document.querySelectorAll('.delete-mgg')
+        const saveWait = document.querySelector('#saveWait')
+        const save = document.querySelector('#save')
+        saveWait.onclick = function () {
+            const modelMgg = document.querySelector('#model-mgg')
+            const modelSoLan = document.querySelector('#model-solan')
+            $.ajax({
+                url: '/Manage/EditMgg',
+                data: { Mgg: modelMgg.value, solan: Number(modelSoLan.value), flag: 1 }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Cập nhật mã giảm giá không thành công')
+                }
+            })
+        }
+        save.onclick = function () {
+            const modelMgg = document.querySelector('#model-mgg')
+            const modelSoLan = document.querySelector('#model-solan')
+            $.ajax({
+                url: '/Manage/EditMgg',
+                data: { Mgg: modelMgg.value, solan: Number(modelSoLan.value), flag: 0 }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Cập nhật mã giảm giá không thành công')
+                }
+            })
+
+        }
+        editBtn.forEach(btn => {
+            btn.onclick = () => {
+                let modelMgg = document.querySelector('#model-mgg')
+                modelMgg.value = btn.dataset.id;
+            }
+        })
+        deleteBtn.forEach(btn => {
+            btn.onclick = () => {
+                $.ajax({
+                    url: '/Manage/DelBan',
+                    data: { id: btn.dataset.id }
+                }).then(value => {
+                    console.log(value)
+                })
+            }
+        })
+    }, false)
+
+</script>
+
+
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+</style>

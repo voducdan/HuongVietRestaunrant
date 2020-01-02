@@ -28,6 +28,11 @@ namespace NhaHang
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Contact", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "Manage",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }

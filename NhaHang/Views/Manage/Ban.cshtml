@@ -1,0 +1,153 @@
+﻿@model NhaHang.Models.QuanLy.BanModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+
+    ViewBag.Title = "Ban";
+    Layout = "~/Views/Manage/Index.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hương Việt</title>
+</head>
+<body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Sửa thông tin bàn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Id bàn</label>
+                    <input type="text" name="idban" class="form-control" id="model-id" />
+                    <br />
+                    <label>Số ghế</label>
+                    <input type="text" name="soghe" class="form-control" id="model-ghe" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" id="saveWait" data-dismiss="modal">Lưu - wait</button>
+                    <button type="button" class="btn btn-primary" id="save" data-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar mt-2">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Bàn</th>
+                    <th scope="col">Số ghế</th>
+                    <th scope="col">#</th>
+                </tr>
+            </thead>
+            <tbody class="monan-table">
+                @foreach (var item in Model.BanModels)
+                {
+                    <tr>
+                        <td>@item.Idban</td>
+                        <td>@item.Soghe</td>
+                        <td>
+                            <ul style="list-style:none" class="d-flex flex-row justify-content-around">
+                                <li><i class="fa fa-pencil edit-table" aria-hidden="true" data-id=@item.Idban data-toggle="modal" data-target="#exampleModalCenter"></i></li>
+                                <li><i class="fa fa-times delete-table" aria-hidden="true" data-id="@item.Idban"></i></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    Page @(Model.BanModels.PageCount < Model.BanModels.PageNumber ? 0 : Model.BanModels.PageNumber) of @Model.BanModels.PageCount
+
+    @Html.PagedListPager(Model.BanModels, page => Url.Action("Ban",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</body>
+</html>
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editBtn = document.querySelectorAll('.edit-table')
+        const deleteBtn = document.querySelectorAll('.delete-table')
+        const saveWait = document.querySelector('#saveWait')
+        const save = document.querySelector('#save')
+        saveWait.onclick = function () {
+            const modelId = document.querySelector('#model-id')
+            const modelGhe = document.querySelector('#model-ghe')
+            $.ajax({
+                url: '/Manage/EditBan',
+                data: { id: Number(modelId.value), soghe: Number(modelGhe.value), flag: 1 }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Sửa thông tin bàn không thành công')
+                }
+            })
+        }
+        save.onclick = function () {
+            const modelId = document.querySelector('#model-id')
+            const modelGhe = document.querySelector('#model-ghe')
+            $.ajax({
+                url: '/Manage/EditBan',
+                data: { id: Number(modelId.value), soghe: Number(modelGhe.value), flag: 0 }
+            }).then(res => {
+                console.log(res)
+                if (res == 'True') {
+                    console.log(res)
+                    window.location.reload();
+                }
+                else {
+                    alert('Sửa thông tin bàn không thành công')
+                }
+            })
+
+        }
+        editBtn.forEach(btn => {
+            btn.onclick = () => {
+                let modelId = document.querySelector('#model-id')
+                modelId.value = btn.dataset.id;
+            }
+        })
+        deleteBtn.forEach(btn => {
+            btn.onclick = () => {
+                $.ajax({
+                    url: '/Manage/DelBan',
+                    data: { id: btn.dataset.id }
+                }).then(value => {
+                    console.log(value)
+                })
+            }
+        })
+    }, false)
+</script>
